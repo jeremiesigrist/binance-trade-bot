@@ -15,7 +15,13 @@ from database import set_coins, set_current_coin, get_current_coin, get_pairs_fr
 from models import Coin, Pair
 from scheduler import SafeScheduler
 from logger import Logger
-
+'''
+CODE A JER
+'''
+import bibliojer
+'''
+CODE A JER
+''' 
 # Config consts
 CFG_FL_NAME = 'user.cfg'
 USER_CFG_SECTION = 'binance_user_config'
@@ -149,7 +155,13 @@ def scout(client: BinanceAPIManager, transaction_fee=0.001, multiplier=5):
         return
 
     ratio_dict: Dict[Pair, float] = {}
-
+    '''
+    CODE A JER
+    '''
+    ratio_jer_p = bibliojer.calc_rapports_begin()
+    '''
+    CODE A JER
+    '''  
     for pair in get_pairs_from(current_coin):
         if not pair.to_coin.enabled:
             continue
@@ -163,7 +175,13 @@ def scout(client: BinanceAPIManager, transaction_fee=0.001, multiplier=5):
 
         # Obtain (current coin)/(optional coin)
         coin_opt_coin_ratio = current_coin_price / optional_coin_price
-
+        '''
+        CODE A JER
+        '''
+        bibliojer.calc_rapport(coin_opt_coin_ratio,transaction_fee,multiplier, pair, current_coin,ratio_jer_p)
+        '''
+        CODE A JER
+        '''  
         # save ratio so we can pick the best option, not necessarily the first
         ratio_dict[pair] = (coin_opt_coin_ratio - transaction_fee * multiplier * coin_opt_coin_ratio) - pair.ratio
 
@@ -177,7 +195,13 @@ def scout(client: BinanceAPIManager, transaction_fee=0.001, multiplier=5):
             current_coin, best_pair.to_coin_id))
         transaction_through_tether(
             client, best_pair, all_tickers)
-
+    '''
+    CODE A JER
+    '''
+    bibliojer.calc_rapports_end(ratio_jer_p, current_coin)
+    '''
+    CODE A JER
+    '''  
 
 def update_values(client: BinanceAPIManager):
     all_ticker_values = client.get_all_market_tickers()
